@@ -1,6 +1,9 @@
-import { ChakraProvider } from "@chakra-ui/react";
+
 import "./globals.css";
 import { Inter } from "next/font/google";
+import { InternetIdentityProvider } from "ic-use-internet-identity";
+import { Toaster } from "react-hot-toast";
+import Actors from "./ic/Actors";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -17,7 +20,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="bg-black">
-        <ChakraProvider>{children}</ChakraProvider>
+        {/* <InternetIdentityProvider>
+         <Actors> */}
+          {children}
+         {/* </Actors>
+        </InternetIdentityProvider> */}
+        
       </body>
     </html>
   );

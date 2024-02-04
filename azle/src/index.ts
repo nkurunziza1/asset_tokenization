@@ -1,4 +1,4 @@
-import { Canister, nat32, update } from "azle";
+import { Canister, Principal, nat32, query, update } from "azle";
 
 export default Canister({
   randomNumber: update([], nat32, () => {
