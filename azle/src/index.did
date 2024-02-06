@@ -1,3 +1,4 @@
 service: () -> {
+    getPrinciple: () -> (text) query;
     randomNumber: () -> (nat32);
 }

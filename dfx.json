@@ -20,6 +20,12 @@
       }
 
     },
+    "networks": {
+      "local": {
+        "bind": "localhost:5050",
+        "type": "ephemeral"
+      }
+    },
     "dfx": "0.16.1",
     "version": 2
   }

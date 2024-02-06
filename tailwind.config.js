@@ -18,7 +18,7 @@ module.exports = {
           borderColor: "#2D3748",
           hoverBordercolor: "rgba(237, 100, 166, 0.1)"
         }
-    },
+    }
   },
   plugins: [],
 }

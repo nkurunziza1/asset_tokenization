@@ -1,20 +1,26 @@
 
 import { useInternetIdentity } from "ic-use-internet-identity";
+import { useEffect } from "react";
 
-export function LoginButton() {
+export default function LoginButton() {
   const { isLoggingIn, login, clear, identity } = useInternetIdentity();
 
   // If the user is logged in, clear the identity. Otherwise, log in.
   function handleClick() {
     if (identity) {
       clear();
+      window.location.reload()
     } else {
       login();
+      
     }
   }
-
-  let className ="flex px-5 font-bold text-white bg-blue-500 rounded cursor-pointer h-9 md:h-16 hover:bg-blue-700 disabled:bg-blue-500/20 disabled:hover:bg-blue-500/20";
-
+  useEffect(() => {
+    if(identity){
+      window.location.href="/dashboard"
+    }
+  })
+  let  className="block rounded-md bg-gradient-to-r from-green-300 via-blue-500 to-purple-600  px-5 py-2.5 text-sm font-medium text-white transition hover:bg-teal-700"
   const text = () => {
     if (identity) {
       return "Logout";
