@@ -11,11 +11,6 @@ fi
 
 ENV=$1
 
-# dfx build
-
-bash ./scripts/cleanup.sh "$ENV"
-
-# npm install
 
 if [[ $ENV == "local" ]]; then
 
