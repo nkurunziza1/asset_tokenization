@@ -46,6 +46,7 @@ const Sidebar = () => {
   return (
     <div className="flex flex-col ring-1 ring-gray-800 gap-4 justify-between bg-gray-900">
       <div className="px-4 py-6 h-screen">
+        
         <span className="grid h-10 w-32 place-content-center rounded-lg text-xs text-gray-600">
           <img src="/logo2-removebg-preview.png" alt="" style={{ marginTop: '30px' }} />
         </span>

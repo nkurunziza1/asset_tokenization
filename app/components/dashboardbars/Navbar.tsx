@@ -9,6 +9,7 @@ const Navbar = () => {
       <div className="">
         <nav className="fixed w-[100%] ring-1 ring-gray-800 bg-gray-900 top-0 z-50  dark:bg-gray-800 dark:border-gray-700">
           <div className="flex w-[90%] cursor-pointer justify-end  gap-4 p-6 text-3xl text-second-color">
+          <p className="text-white">00.04icp</p>
             <img
               src="https://api.dicebear.com/7.x/avataaars/svg"
               alt="avatar"

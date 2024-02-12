@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import DataTable from "react-data-table-component";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import data from "../../utils/data/data.json"
-
+import updateModel from '@/app/components/model/updateModel';
 
 type HistoryData = {
   name: string;
@@ -21,13 +21,6 @@ const MyAsset = () => {
       sortable: true,
     },
     {
-      name: "owner",
-      cell: (row: HistoryData) => (
-        <div className="text-white w-full">{row.from}</div>
-      ),
-      sortable: true,
-    },
-    {
       name: "Token",
       cell: (row: HistoryData) => <div className="text-white">{row.to}</div>,
       sortable: true,
@@ -40,9 +33,9 @@ const MyAsset = () => {
     {
       name: "Date",
       cell: (row: HistoryData) => (
-        <button className="text-white  w-[90%] bg-green-400 rounded-md p-2">
-          50icp/Buy
-        </button>
+        <p className="text-white ">
+          19/02/2024
+        </p>
       ),
       sortable: true,
     },
@@ -98,15 +91,15 @@ const MyAsset = () => {
     <div>
       <div className="font-serif flex items-center gap-4">
         <div className="ring-1 p-4 w-[50%] text-white ring-gray-800 bg-gray-900">
-          Total asset
+          Your Total asset
           <br></br>
-          <span className="text-xl">50</span>
+          <span className="text-xl">15</span>
         </div>
 
         <div className="ring-1 p-4 w-[50%] text-white ring-gray-800 bg-gray-900">
-          Total safe transfers
+          Your Total safe transfers
           <br></br>
-          <span className="text-xl">150</span>
+          <span className="text-xl">5</span>
         </div>
       </div>
       <p
