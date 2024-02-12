@@ -1,4 +1,8 @@
 service: () -> {
-    getPrinciple: () -> (text) query;
-    randomNumber: () -> (nat32);
+    addAsset: (record {attachmentURL:text; contact:text; securityStatement:text; isRented:bool; description:text; ownershipCertificate:text; TradeState:text; category:text; assetTitle:text; price:nat64; assetIdentity:text; location:text}) -> (variant {Ok:record {id:text; attachmentURL:text; token:text; contact:text; securityStatement:text; owner:principal; isRented:bool; description:text; ownershipCertificate:text; TradeState:text; category:text; assetTitle:text; price:nat64; assetIdentity:text; location:text}; Err:variant {PaymentFailed:text; InvalidPayload:text; NotFound:text; PaymentCompleted:text; Forbidden:text}});
+    deleteAsset: (text) -> (variant {Ok:text; Err:variant {PaymentFailed:text; InvalidPayload:text; NotFound:text; PaymentCompleted:text; Forbidden:text}});
+    getAssets: () -> (vec record {id:text; attachmentURL:text; token:text; contact:text; securityStatement:text; owner:principal; isRented:bool; description:text; ownershipCertificate:text; TradeState:text; category:text; assetTitle:text; price:nat64; assetIdentity:text; location:text}) query;
+    getPersistantTransfer: () -> (vec record {id:text; assetId:text; owner:principal; memo:text; transferStatus:bool; transfered_at_block:opt nat64; approveStatus:bool; receiver:principal}) query;
+    getTemporallyTransfer: () -> (vec record {id:text; assetId:text; owner:principal; memo:text; transferStatus:bool; transfered_at_block:opt nat64; approveStatus:bool; receiver:principal}) query;
+    transferProperty: (record {assetId:text; approveStatus:bool; receiver:principal}) -> (variant {Ok:record {id:text; assetId:text; owner:principal; memo:text; transferStatus:bool; transfered_at_block:opt nat64; approveStatus:bool; receiver:principal}; Err:variant {PaymentFailed:text; InvalidPayload:text; NotFound:text; PaymentCompleted:text; Forbidden:text}});
 }
