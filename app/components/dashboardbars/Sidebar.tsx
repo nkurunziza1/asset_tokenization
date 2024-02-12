@@ -36,12 +36,11 @@ const Sidebar = () => {
     },
   ];
 
-  // Function to handle link click and set active link
+
   const handleLinkClick = (link: string) => {
     setActiveLink(link);
   };
 
-  // Get the current pathname
   const currentPathname = typeof window !== 'undefined' ? window.location.pathname : '';
 
   return (
