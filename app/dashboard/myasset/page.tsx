@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import DataTable from "react-data-table-component";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import data from "../../utils/data/data.json"
-import updateModel from '@/app/components/model/updateModel';
+import UpdateModel from '@/app/components/model/updateModel';
 
 type HistoryData = {
   name: string;
@@ -13,6 +13,8 @@ type HistoryData = {
 };
 
 const MyAsset = () => {
+  const [selectedAsset, setSelectedAsset] = useState<HistoryData | null>(null);
+  const [isModelOpen, setIsModelOpen] = useState<boolean>(false);
 
   const columns = [
     {
@@ -42,7 +44,10 @@ const MyAsset = () => {
     {
       name: "Action",
       cell: (row: HistoryData) => (
-        <BsThreeDotsVertical className="text-white cursor-pointer" />
+        <BsThreeDotsVertical className="text-white cursor-pointer" onClick={() => {
+          setSelectedAsset(row);
+          setIsModelOpen(true);
+        }}/>
       ),
     },
   ];
@@ -129,12 +134,19 @@ const MyAsset = () => {
           pagination
           customStyles={customStyles}
         />
+      </div>  
+        <div className='h-full'>
+            {selectedAsset && (
+        <UpdateModel
+          isOpen={isModelOpen}
+          onclose={() => setIsModelOpen(false)}
+          //@ts-ignore
+          selectedAsset={selectedAsset}
+        />
+      )}
       </div>
-      <div className="mx-auto max-w-[500px] w-full">
-    
-      </div>
-      
     </div>
+
   );
 }
 

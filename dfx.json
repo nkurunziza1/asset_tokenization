@@ -1,31 +1,30 @@
 {
-    "canisters": {
-      "internet_identityy": {
-        "type": "custom",
-        "candid": "https://github.com/dfinity/internet-identity/releases/download/release-2023-11-17/internet_identity.did",
-        "wasm": "https://github.com/dfinity/internet-identity/releases/download/release-2023-11-17/internet_identity_dev.wasm.gz",
-        "remote": {
-          "id": {
-            "ic": "rdmx6-jaaaa-aaaaa-aaadq-cai"
-          }
-        },
-        "frontend": {}
+  "canisters": {
+    "internet_identityy": {
+      "type": "custom",
+      "candid": "https://github.com/dfinity/internet-identity/releases/download/release-2023-11-17/internet_identity.did",
+      "wasm": "https://github.com/dfinity/internet-identity/releases/download/release-2023-11-17/internet_identity_dev.wasm.gz",
+      "remote": {
+        "id": {
+          "ic": "rdmx6-jaaaa-aaaaa-aaadq-cai"
+        }
       },
-      "frontend_canister": {
-        "frontend": {
-          "entrypoint": "out/index.html"
-        },
-        "source": ["out"],
-        "type": "assets"
-      }
-
+      "frontend": {}
     },
-    "networks": {
-      "local": {
-        "bind": "localhost:5050",
-        "type": "ephemeral"
-      }
-    },
-    "dfx": "0.16.1",
-    "version": 2
-  }
+    "frontend_canister": {
+      "frontend": {
+        "entrypoint": "out/index.html"
+      },
+      "source": ["out"],
+      "type": "assets"
+    }
+  },
+  "networks": {
+    "local": {
+      "bind": "localhost:8000",
+      "type": "ephemeral"
+    }
+  },
+  "dfx": "0.16.1",
+  "version": 2
+}

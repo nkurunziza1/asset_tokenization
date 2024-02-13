@@ -9,7 +9,7 @@ echo "$value"
 canisterId=$value
 variable="NEXT_PUBLIC_CANISTER_ID_AZLE="$canisterId
 
-icHost="NEXT_PUBLIC_IC_HOST=http://localhost:8080"
+icHost="NEXT_PUBLIC_IC_HOST=http://localhost:8000"
 
 echo "$variable" > .env
 echo $icHost >> .env

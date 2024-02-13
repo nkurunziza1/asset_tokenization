@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "start_replica": " dfx start --clean --background --host 127.0.0.1:5050",
+    "start_replica": " dfx start --clean --background  --host 127.0.0.1:8000",
     "deploy": "bash scripts/deploy_frontend_canister.sh  local",
     "install:all": "bash scripts/install.sh"
   },
@@ -35,7 +35,7 @@
     "ic-use-actor": "^0.0.7",
     "ic-use-internet-identity": "^0.0.7",
     "next": "14.0.3",
-    "postcss": "8.4.24",
+    "postcss": "^8.4.35",
     "react": "18.2.0",
     "react-chartjs-2": "^5.2.0",
     "react-data-table-component": "^7.6.2",

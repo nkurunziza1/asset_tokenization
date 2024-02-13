@@ -11,7 +11,8 @@
         "output": "declarations/dfx_generated/",
 
         "node_compatibility": true
-      }
+      },
+      "opt_level": "3"
     }
   }
 }

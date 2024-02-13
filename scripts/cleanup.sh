@@ -16,4 +16,5 @@ if [[ $ENV == "local" ]]; then
 
     # Remove .dfx folder
     rm -rf .dfx
+    rm -rf .azle
 fi

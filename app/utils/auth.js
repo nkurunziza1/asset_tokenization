@@ -149,7 +149,6 @@ const nanoseconds = BigInt(3600000000000);
 export const defaultOptions = {
     createOptions: {
       idleOptions: {
-        // Set to true if you do not want idle functionality
         disableIdle: true,
       },
     },
@@ -158,7 +157,7 @@ export const defaultOptions = {
         process.env.DFX_NETWORK === "ic"
           ? "https://identity.ic0.app/#authorize"
           : `http://localhost:4943?canisterId=rdmx6-jaaaa-aaaaa-aaadq-cai#authorize`,
-      // Maximum authorization expiration is 8 days
+      
       maxTimeToLive: days * hours * nanoseconds,
     },
   };

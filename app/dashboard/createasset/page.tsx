@@ -111,7 +111,7 @@ const CreateAsset = () => {
             </div>
             <div className="flex w-full mt-2 flex-col md:flex-row gap-4">
               <div className="w-full ">
-                <label className="text-white">Trade State</label>
+              <label className="text-white">Trade State</label>
                 <Select
                   options={State.map((option) => ({
                     value: option.value,
