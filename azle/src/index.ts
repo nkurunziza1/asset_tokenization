@@ -27,6 +27,8 @@ import {
   Ledger, binaryAddressFromAddress, binaryAddressFromPrincipal, hexAddressFromPrincipal
 } from "azle/canisters/ledger";
 import { v4 as uuidv4 } from "uuid";
+  //@ts-ignore
+  import { hashCode } from "hashcode";
 
 const TradeState=Variant({
   nonSelleable:bool,
@@ -49,7 +51,7 @@ const Asset=Record({
   token:text,
   isRented:bool,
   securityStatement:text,
-  price:nat64
+  price:nat64,
 })
 
 const AssetPayload = Record({
@@ -74,8 +76,9 @@ const Transfer=Record({
   owner: Principal,
   transfered_at_block: Opt(nat64),
   approveStatus:bool,
-  memo: text,
-  receiver:Principal
+  memo: nat64,
+  receiver:Principal,
+  amount:nat64
 })
 const TransferPayload=Record({
   receiver:Principal,
@@ -99,11 +102,11 @@ type Asset=typeof Asset.tsType;
 type Transfer=typeof Transfer.tsType;
 
 const Assets=StableBTreeMap<Principal,Asset>(0);
-const temporallyTransfers=StableBTreeMap<text,Transfer>(1);
+const temporallyTransfers=StableBTreeMap<nat64,Transfer>(1);
 const persistedTransfers=StableBTreeMap<Principal,Transfer>(2)
 
 
-function hash(input: any): string {
+function hashing(input: any): string {
   const serializedInput = JSON.stringify(input);
 
   const hashedValue = SHA3(serializedInput).toString();
@@ -116,15 +119,24 @@ function generateToken(data: {
   owner: Principal;
 }): string {
   const correlationId = `${data.id}_${data.owner.toString()}`;
-  return hash(correlationId);
+  return hashing(correlationId);
 }
 
-// function temporallyTransfer(memo: nat64, delay: Duration) {
-//   ic.setTimer(delay, () => {
-//       const order = temporallyTransfer.remove(memo);
-//       console.log(`Order discarded ${order}`);
-//   });
-// }
+function hash(input: any): nat64 {
+  return BigInt(Math.abs(hashCode().value(input)));
+};
+function generateCorrelationId(AssetId: text): nat64 {
+  const correlationId = `${AssetId}_${ic.caller().toText()}_${ic.time()}`;
+  return hash(correlationId);
+};
+
+function discardByTimeout(memo: nat64, delay: Duration) {
+  ic.setTimer(delay, () => {
+      const transfer = temporallyTransfers.remove(memo);
+      console.log(`Order discarded ${transfer}`);
+  });
+};
+
 
 const ORDER_RESERVATION_PERIOD = 120n;
 
@@ -181,7 +193,8 @@ export default Canister({
       transferStatus: false,
       owner: asset.owner,
       transfered_at_block: None,
-      memo: asset.token,
+      memo: generateCorrelationId(asset.id),
+      amount:asset.price,
       ...data
     }
     temporallyTransfers.insert(transfer.memo,transfer);
@@ -204,7 +217,7 @@ export default Canister({
       token:asset.token,
       isRented:asset.isRented,
       securityStatement:asset.securityStatement,
-      price:asset.price
+      price:asset.price,
       }
       //@ts-ignore
       Assets.insert(data.assetId,updateAsset);
@@ -218,22 +231,12 @@ export default Canister({
   }),
   getPersistantTransfer:query([],Vec(Transfer),()=>{
     return  persistedTransfers.values()
-  })
-
+  }),
+  getCanisterAddress: query([], text, () => {
+    let canisterPrincipal = ic.id();
+    return hexAddressFromPrincipal(canisterPrincipal, 0);
+}),
 
                                                           
 })
 
-
-
-
-
-// export default Canister({
-//   randomNumber: update([], nat32, () => {
-//     return parseInt(String(Math.random() * 10 ** 8));
-//   }),
-//   getPrinciple:query([], text, ()=> {
-//    const caller = ic.caller()
-//    return caller.toString()
-//   })
-// });
