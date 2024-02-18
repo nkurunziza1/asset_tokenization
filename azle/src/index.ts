@@ -136,6 +136,7 @@ export default Canister({
   addAsset:update([AssetPayload],Result(Asset,Message),(data)=>{
 
     if (typeof data !== "object" || Object.keys(data).length === 0) {
+      console.log("asset", data)
       return Err({ NotFound: "invalid payLoad!!" })
   }
   const assetToken = generateToken({
@@ -144,7 +145,7 @@ export default Canister({
   });
 
   const asset={id:uuidv4(),owner:ic.caller(),token:assetToken,...data}
-
+   
   //@ts-ignore
   Assets.insert(asset.id,asset);
   return Ok(asset);

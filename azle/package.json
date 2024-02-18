@@ -9,7 +9,7 @@
     },
     "dependencies": {
         "@types/crypto-js": "^4.2.2",
-        "azle": "0.20.1",
+        "azle": "0.20.2",
         "crypto-js": "^4.2.0",
         "decode-utf8": "^1.0.1"
     }

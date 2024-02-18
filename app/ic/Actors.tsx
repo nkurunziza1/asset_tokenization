@@ -8,9 +8,9 @@ import {
     createUseActorHook,
     isIdentityExpiredError,
   } from "ic-use-actor";
-  import {canisterId, idlFactory} from "../../azle/declarations/dfx_generated/index"
+  import {canisterId, idlFactory} from "../../config/declarations/dfx_generated/index"
   import { ReactNode } from "react";
-  import { _SERVICE } from "@/azle/declarations/dfx_generated/azle.did";
+  import { _SERVICE } from "@/config/declarations/dfx_generated/azle.did";
   import toast from "react-hot-toast";
   import { useInternetIdentity } from "ic-use-internet-identity";
   

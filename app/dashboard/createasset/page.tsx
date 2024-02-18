@@ -2,17 +2,21 @@
 import { Form } from "@/app/components/form/forms";
 import { InputField } from "@/app/components/input/input";
 import { AssetSchema } from "@/app/utils/validation";
+import { makeAzleActor } from "@/service/actor";
+import { _SERVICE as AZLE } from "@/config/declarations/dfx_generated/azle.did";
+
 import React, { useState } from "react";
 import Select from "react-select";
-
 
 type AssetType = {
   assetName: string;
   location: string;
   contacts: string;
-  image: string;
-  attachments: string;
+  attachmentUrl: string;
+  price: string;
   assetId: string;
+  securityStatement: string;
+  ownershipCertificate: string;
 };
 
 const CreateAsset = () => {
@@ -30,15 +34,59 @@ const CreateAsset = () => {
     { value: "portion equit sell", label: "portion equit sell" },
   ];
 
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [selectedCategory, setSelectedCategory] = useState<string>("");
   const [categoryError, setCategoryError] = useState<string | null>(null);
 
-  const [selectedState, setSelectedState] = useState<string | null>(null);
-  const [stateError, setStateError] = useState<string | null>(null);
+  const [selectedState, setSelectedState] = useState<string>("");
+  const [stateError, setStateError] = useState<string>("");
 
-  const handleCreateAsset = () => {};
+  const handleCreateAsset = async (data: AssetType) => {
+    console.log("hello world");
+    try {
+      setLoading(true);
+      const azle: AZLE = await makeAzleActor();
+
+      const formData = new FormData();
+      formData.append("attachmentURL", data.attachmentUrl);
+      formData.append("contact", data.contacts);
+      formData.append("securityStatement", data.securityStatement);
+      formData.append("isRented", "false");
+      formData.append("description", data.assetName);
+      formData.append("ownershipCertificate", data.ownershipCertificate);
+      formData.append("TradeState", selectedState);
+      formData.append("category", selectedCategory);
+      formData.append("assetTitle", data.assetName);
+      formData.append("price", data.price.toString());
+      formData.append("assetIdentity", data.assetId);
+      formData.append("location", data.location);
+
+      const assetData = {
+        attachmentURL: data.attachmentUrl[0].toString(),
+        contact: data.contacts,
+        securityStatement: data.securityStatement[0].toString(),
+        isRented: false,
+        description: data.assetName,
+        ownershipCertificate: data.ownershipCertificate[0].toString(),
+        TradeState: selectedState,
+        category: selectedCategory,
+        assetTitle: data.assetName,
+        price: data.price,
+        assetIdentity: data.assetId,
+        location: data.location,
+      };
+      //@ts-ignore
+      await azle.addAsset(assetData);
+      console.log("Asset added successfully!");
+    } catch (error) {
+      console.error("Error adding asset:", error);
+    } finally {
+      console.log("hello world");
+      setLoading(false);
+    }
+  };
+
   return (
-    <div className="bg-gray-800 p-10  ">
+    <div className="bg-gray-800 p-10 ">
       <h1
         className="flex justify-between text-xl uppercase "
         style={{
@@ -51,8 +99,8 @@ const CreateAsset = () => {
         create your asset{" "}
       </h1>
       <p className="text-white p-2">
-        After Creating your asset you can start to trade your asset by <br></br>selling
-        the token of your asset.
+        After Creating your asset you can start to trade your asset by <br></br>
+        selling the token of your asset.
       </p>
       <p></p>
       <Form<AssetType, typeof AssetSchema>
@@ -93,11 +141,10 @@ const CreateAsset = () => {
             </div>
             <div className="flex flex-col mt-2 md:flex-row gap-4 ">
               <InputField
-                type="text"
+                type="file"
                 label="Image"
-                placeholder="image url"
-                registration={register("image")}
-                error={formState.errors.image}
+                registration={register("attachmentUrl")}
+                error={formState.errors.attachmentUrl}
                 className="h-10 rounded-md w-full bg-gray-900   py-2.5 p-10  shadow-sm sm:text-sm"
               />
               <InputField
@@ -108,10 +155,38 @@ const CreateAsset = () => {
                 error={formState.errors.assetId}
                 className="h-10 rounded-md w-full bg-gray-900   py-2.5 p-10  shadow-sm sm:text-sm"
               />
+              <InputField
+                type="number"
+                label="Price"
+                placeholder="Set price of your asset"
+                registration={register("price")}
+                error={formState.errors.price}
+                className="h-10 rounded-md w-full bg-gray-900   py-2.5 p-10  shadow-sm sm:text-sm"
+              />
+            </div>
+            <div>
+              <InputField
+                type="file"
+                label="Security Statement"
+                placeholder="Enter your security statement"
+                registration={register("securityStatement")}
+                error={formState.errors.securityStatement}
+                autoFocus
+                className="h-10 rounded-md w-full bg-gray-900   py-2.5 p-10  shadow-sm sm:text-sm"
+              />
+              <InputField
+                type="file"
+                label="ownershipCertificate"
+                placeholder="upload your  ownership certificate"
+                registration={register("ownershipCertificate")}
+                error={formState.errors.ownershipCertificate}
+                autoFocus
+                className="h-10 rounded-md w-full bg-gray-900   py-2.5 p-10  shadow-sm sm:text-sm"
+              />
             </div>
             <div className="flex w-full mt-2 flex-col md:flex-row gap-4">
               <div className="w-full ">
-              <label className="text-white">Trade State</label>
+                <label className="text-white">Trade State</label>
                 <Select
                   options={State.map((option) => ({
                     value: option.value,
@@ -132,7 +207,7 @@ const CreateAsset = () => {
                   styles={{
                     control: (provided, state) => ({
                       ...provided,
-                      backgroundColor: "rgb(17 24 39 / var(--tw-bg-opacity))", // Set the background color here
+                      backgroundColor: "rgb(17 24 39 / var(--tw-bg-opacity))", 
                       color: "white !important",
                       border: state.isFocused
                         ? "0px solid #4a5568"
@@ -144,7 +219,7 @@ const CreateAsset = () => {
                       backgroundColor: state.isFocused ? "#2d3748" : null,
                       color: "black",
                       cursor: "pointer",
-                      transition: "all 0.5s", 
+                      transition: "all 0.5s",
                     }),
                   }}
                 />
@@ -173,7 +248,7 @@ const CreateAsset = () => {
                   styles={{
                     control: (provided, state) => ({
                       ...provided,
-                      backgroundColor: "rgb(17 24 39 / var(--tw-bg-opacity))", 
+                      backgroundColor: "rgb(17 24 39 / var(--tw-bg-opacity))",
                       color: "white",
                       border: state.isFocused
                         ? "0px solid #4a5568"
@@ -182,10 +257,10 @@ const CreateAsset = () => {
                     //@ts-ignore
                     option: (provided, state) => ({
                       ...provided,
-                      backgroundColor: state.isFocused ? "#2d3748" : null, // Set the background color of the options when focused
+                      backgroundColor: state.isFocused ? "#2d3748" : null, 
                       color: "black",
                       cursor: "pointer",
-                      transition: "all 0.5s", // Set the text color of the options
+                      transition: "all 0.5s",
                     }),
                   }}
                 />
