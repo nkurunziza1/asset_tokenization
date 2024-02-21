@@ -1,6 +1,4 @@
-# Azle + NextJS Template
 
-![Image](public/image.png)
 
 ### Prerequisites
 
